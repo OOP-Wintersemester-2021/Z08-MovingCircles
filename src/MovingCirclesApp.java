@@ -33,24 +33,25 @@ public class MovingCirclesApp extends GraphicsApp {
     @Override
     public void draw() {
         drawBackground(CREAM);
-        updateCirclePositionInDegree();
-        updateAndDrawCircle(fleeingCircle, true);
-        updateAndDrawCircle(huntingCircle, false);
+        currentCirclePositionInDegree = updateCirclePositionInDegree(currentCirclePositionInDegree);
+        updateAndDrawCircle(fleeingCircle, currentCirclePositionInDegree, true);
+        updateAndDrawCircle(huntingCircle, currentCirclePositionInDegree, false);
     }
 
-    private void updateCirclePositionInDegree() {
-        currentCirclePositionInDegree++;
-        if (currentCirclePositionInDegree > 360) {
-            currentCirclePositionInDegree = 0;
+    private double updateCirclePositionInDegree(double lastCirclePositionInDegree) {
+        lastCirclePositionInDegree++;
+        if (lastCirclePositionInDegree > 360) {
+            lastCirclePositionInDegree = 0;
         }
+        return lastCirclePositionInDegree;
     }
 
-    private void updateAndDrawCircle(Circle circle, boolean isFleeingCircle) {
+    private void updateAndDrawCircle(Circle circle, double circlePositionInDegree, boolean isFleeingCircle) {
         if (isFleeingCircle) {
-            updateCirclePosition(circle, currentCirclePositionInDegree);
+            updateCirclePosition(circle, circlePositionInDegree);
             updateCircleColor(circle);
         } else {
-            updateCirclePosition(circle, currentCirclePositionInDegree - FLEEING_CIRCLE_LEAD_IN_DEGREES);
+            updateCirclePosition(circle, circlePositionInDegree - FLEEING_CIRCLE_LEAD_IN_DEGREES);
         }
         circle.draw();
     }
