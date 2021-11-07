@@ -11,62 +11,68 @@ public class MovingCirclesApp extends GraphicsApp {
     private static final Color GREEN = new Color(76, 149, 80); // "Selbstgemischter" RGB-Farbe (grün)
     private static final Color BLUE = new Color(53, 129, 184); // "Selbstgemischter" RGB-Farbe (blau)
     private static final Color CREAM = new Color(241, 255, 250); // "Selbstgemischter" RGB-Farbe (creme)
-
+    private static final Color GREY = new Color(47, 61, 76); // "Selbstgemischter" RGB-Farbe (grau)
 
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
     private static final int CIRCLE_RADIUS = 15;
     private static final int CIRCLE_MOVEMENT_RADIUS = 200;
+    private static final int FLEEING_CIRCLE_LEAD_IN_DEGREES = 45;
 
-    private Circle movingCircle;
+    private Circle fleeingCircle;
+    private Circle huntingCircle;
     private double currentCirclePositionInDegree = 0;
 
     @Override
     public void initialize() {
         setCanvasSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        movingCircle = createCircle();
-    }
-
-    private Circle createCircle() {
-        int x = WINDOW_WIDTH / 2;
-        int y = (WINDOW_HEIGHT - (2 * CIRCLE_MOVEMENT_RADIUS)) / 2;
-        return new Circle(x, y, CIRCLE_RADIUS, RED);
+        fleeingCircle = new Circle(0, 0, CIRCLE_RADIUS, RED);
+        huntingCircle = new Circle(0, 0, CIRCLE_RADIUS * 1.1f, GREY);
     }
 
     @Override
     public void draw() {
         drawBackground(CREAM);
-        updateAndDrawCircle(movingCircle);
+        updateCirclePositionInDegree();
+        updateAndDrawCircle(fleeingCircle, true);
+        updateAndDrawCircle(huntingCircle, false);
     }
 
-    private void updateAndDrawCircle(Circle circle) {
-        updateCirclePosition(circle);
-        updateCircleColor(circle);
-        circle.draw();
-    }
-
-    private void updateCirclePosition(Circle circle) {
+    private void updateCirclePositionInDegree() {
         currentCirclePositionInDegree++;
         if (currentCirclePositionInDegree > 360) {
             currentCirclePositionInDegree = 0;
         }
-        double x = (WINDOW_HEIGHT / 2.0) + (CIRCLE_MOVEMENT_RADIUS * Math.cos(Math.toRadians(currentCirclePositionInDegree)));
-        double y = (WINDOW_WIDTH / 2.0) + (CIRCLE_MOVEMENT_RADIUS * Math.sin(Math.toRadians(currentCirclePositionInDegree)));
+    }
+
+    private void updateAndDrawCircle(Circle circle, boolean isFleeingCircle) {
+        if (isFleeingCircle) {
+            updateCirclePosition(circle, currentCirclePositionInDegree);
+            updateCircleColor(circle);
+        } else {
+            updateCirclePosition(circle, currentCirclePositionInDegree - FLEEING_CIRCLE_LEAD_IN_DEGREES);
+        }
+        circle.draw();
+    }
+
+    private void updateCirclePosition(Circle circle, double degree) {
+        double x = (WINDOW_HEIGHT / 2.0) + (CIRCLE_MOVEMENT_RADIUS * Math.cos(Math.toRadians(degree)));
+        double y = (WINDOW_WIDTH / 2.0) + (CIRCLE_MOVEMENT_RADIUS * Math.sin(Math.toRadians(degree)));
         circle.setPosition((float) x, (float) y);
     }
 
     private void updateCircleColor(Circle circle) {
-        if (movingCircle.getYPos() < WINDOW_HEIGHT / 2.0 && movingCircle.getXPos() > WINDOW_WIDTH / 2.0) {
-            movingCircle.setColor(RED);
+        if (circle.getYPos() < WINDOW_HEIGHT / 2.0 && circle.getXPos() > WINDOW_WIDTH / 2.0) {
+            circle.setColor(RED);
         }
-        if (movingCircle.getYPos() > WINDOW_HEIGHT / 2.0 && movingCircle.getXPos() > WINDOW_WIDTH / 2.0) {
-            movingCircle.setColor(YELLOW);
+        if (circle.getYPos() > WINDOW_HEIGHT / 2.0 && circle.getXPos() > WINDOW_WIDTH / 2.0) {
+            circle.setColor(YELLOW);
         }
-        if (movingCircle.getYPos() > WINDOW_HEIGHT / 2.0 && movingCircle.getXPos() < WINDOW_WIDTH / 2.0) {
-            movingCircle.setColor(GREEN);
+        if (circle.getYPos() > WINDOW_HEIGHT / 2.0 && circle.getXPos() < WINDOW_WIDTH / 2.0) {
+            circle.setColor(GREEN);
         }
-        if (movingCircle.getYPos() < WINDOW_HEIGHT / 2.0 && movingCircle.getXPos() < WINDOW_WIDTH / 2.0) {
-            movingCircle.setColor(BLUE);
+        if (circle.getYPos() < WINDOW_HEIGHT / 2.0 && circle.getXPos() < WINDOW_WIDTH / 2.0) {
+            circle.setColor(BLUE);
         }
     }
 
