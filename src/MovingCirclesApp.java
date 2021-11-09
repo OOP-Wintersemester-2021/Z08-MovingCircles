@@ -3,6 +3,12 @@ import de.ur.mi.oop.colors.Color;
 import de.ur.mi.oop.graphics.*;
 import de.ur.mi.oop.launcher.GraphicsAppLauncher;
 
+/**
+ * In dieser GraphicsApp-Anwendung werden zwei Kreise unterschiedlicher Größe animiert. Beide Objekte
+ * bewegen sich hintereinander auf der gleichen Kreisbahn um den Mittelpunkt der Zeichenfläche. Der
+ * "vordere" Kreis wechselt beim Übertritt in ein anderes Kreisviertel die Farbe.
+ */
+
 public class MovingCirclesApp extends GraphicsApp {
 
     private static final Color RED = new Color(234, 49, 63); // "Selbstgemischter" RGB-Farbe (rot)
@@ -10,7 +16,6 @@ public class MovingCirclesApp extends GraphicsApp {
     private static final Color GREEN = new Color(76, 149, 80); // "Selbstgemischter" RGB-Farbe (grün)
     private static final Color BLUE = new Color(53, 129, 184); // "Selbstgemischter" RGB-Farbe (blau)
     private static final Color CREAM = new Color(241, 255, 250); // "Selbstgemischter" RGB-Farbe (creme)
-
 
     private static final int WINDOW_WIDTH = 500;
     private static final int WINDOW_HEIGHT = 500;
