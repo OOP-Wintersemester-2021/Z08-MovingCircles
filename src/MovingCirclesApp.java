@@ -3,6 +3,11 @@ import de.ur.mi.oop.colors.Color;
 import de.ur.mi.oop.graphics.Circle;
 import de.ur.mi.oop.launcher.GraphicsAppLauncher;
 
+/**
+ * In dieser GraphicsApp-Anwendung werden zwei Kreise unterschiedlicher Größe animiert. Beide Objekte
+ * bewegen sich hintereinander auf der gleichen Kreisbahn um den Mittelpunkt der Zeichenfläche. Der
+ * "vordere" Kreis wechselt beim Übertritt in ein anderes Kreisviertel die Farbe.
+ */
 
 public class MovingCirclesApp extends GraphicsApp {
 
@@ -36,6 +41,8 @@ public class MovingCirclesApp extends GraphicsApp {
         currentCirclePositionInDegree = updateCirclePositionInDegree(currentCirclePositionInDegree);
         updateAndDrawCircle(fleeingCircle, currentCirclePositionInDegree, true);
         updateAndDrawCircle(huntingCircle, currentCirclePositionInDegree, false);
+
+        double x = 1 + 2.3;
     }
 
     private double updateCirclePositionInDegree(double lastCirclePositionInDegree) {
